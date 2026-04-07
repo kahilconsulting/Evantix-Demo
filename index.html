@@ -146,13 +146,39 @@
     padding-top: 16px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
   }
 
   .coming-soon-label {
     font-size: 13px;
     color: rgba(17,24,39,0.40);
     font-style: italic;
+  }
+
+  .card-arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--card-color, #2FA6A4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .hub-card--coming-soon .card-arrow {
+    opacity: 0.55;
+  }
+
+  .card-arrow svg {
+    width: 15px;
+    height: 15px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   /* ── Responsive ── */
@@ -288,7 +314,10 @@
         <div class="card-name">${esc(hub.name)}</div>
         <div class="card-desc">${esc(hub.desc)}</div>
         <div class="card-footer">
-          ${hub.comingSoon ? '<span class="coming-soon-label">Coming soon</span>' : ''}
+          ${hub.comingSoon ? '<span class="coming-soon-label">Coming soon</span>' : '<span></span>'}
+          <div class="card-arrow">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
         </div>
       </div>
     `;

@@ -36,12 +36,14 @@ body {
   padding: 0 12px;
   box-shadow: 0 5px 10px rgba(17,24,39,0.5);
   flex-shrink: 0;
+  position: relative;
+  z-index: 10;
 }
 
 .header-inner {
   max-width: 1800px;
   margin: 0 auto;
-  padding: 8px 32px 12px;
+  padding: 5px 32px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,9 +53,9 @@ body {
 .header-spacer { width: 100px; flex-shrink: 0; }
 
 .header-brand { text-align: center; flex: 1; }
-.header-brand h1 { font-size: 28px; font-weight: 400; color: #fff; letter-spacing: -0.3px; }
+.header-brand h1 { font-size: 30px; font-weight: 400; color: #fff; letter-spacing: -0.3px; }
 .header-brand h1 span { color: var(--brand-teal); }
-.header-brand p { font-size: 18px; color: var(--brand-light); margin-top: 2px; }
+.header-brand p { font-size: 20px; color: var(--brand-light); margin-top: 4px; }
 
 .header-back {
   display: inline-flex;
@@ -116,33 +118,11 @@ body {
 
 /* ── Hub Hero (L2) ───────────────────────────────────────── */
 .hub-hero {
-  background: var(--brand-dark);
-  color: #fff;
+  background: transparent;
+  color: var(--brand-dark);
   border-radius: var(--radius);
-  padding: 32px 36px;
-  margin-bottom: 32px;
-  position: relative;
-  overflow: hidden;
-}
-.hub-hero::before {
-  content: '';
-  position: absolute;
-  top: -50px; right: -50px;
-  width: 220px; height: 220px;
-  border-radius: 50%;
-  background: var(--hub-color);
-  opacity: 0.13;
-  pointer-events: none;
-}
-.hub-hero::after {
-  content: '';
-  position: absolute;
-  bottom: -30px; left: 30%;
-  width: 140px; height: 140px;
-  border-radius: 50%;
-  background: var(--brand-teal);
-  opacity: 0.07;
-  pointer-events: none;
+  padding: 24px 0 20px;
+  margin-bottom: 28px;
 }
 .hub-hero-badge {
   display: inline-block;
@@ -156,19 +136,19 @@ body {
   border-radius: 20px;
   margin-bottom: 14px;
 }
-.hub-hero h2 { font-size: 26px; font-weight: 500; margin-bottom: 8px; }
-.hub-hero p { font-size: 15px; color: rgba(255,255,255,0.70); max-width: 580px; line-height: 1.65; }
+.hub-hero h2 { font-size: 26px; font-weight: 500; margin-bottom: 8px; color: var(--brand-dark); }
+.hub-hero p { font-size: 15px; color: rgba(15,41,94,0.60); max-width: 680px; line-height: 1.65; }
 
 .coming-soon-notice {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(15,41,94,0.06);
+  border: 1px solid rgba(15,41,94,0.15);
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 13px;
-  color: rgba(255,255,255,0.85);
+  color: rgba(15,41,94,0.65);
   margin-bottom: 16px;
 }
 .coming-soon-notice svg {
@@ -266,12 +246,13 @@ body {
 .demo-header {
   background: #fff;
   border-bottom: 1px solid var(--border);
-  padding: 16px 32px;
+  padding: 16px 0;
   flex-shrink: 0;
 }
 .demo-header-inner {
-  max-width: 1200px;
+  max-width: 1800px;
   margin: 0 auto;
+  padding: 0 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -304,7 +285,7 @@ body {
 /* Demo Content */
 .demo-content {
   flex: 1;
-  max-width: 1200px;
+  max-width: 1800px;
   width: 100%;
   margin: 0 auto;
   padding: 36px 32px 28px;
@@ -392,14 +373,15 @@ body {
 .demo-nav {
   border-top: 1px solid var(--border);
   background: #fff;
-  padding: 14px 32px;
+  padding: 14px 0;
   flex-shrink: 0;
   position: sticky;
   bottom: 0;
 }
 .demo-nav-inner {
-  max-width: 1200px;
+  max-width: 1800px;
   margin: 0 auto;
+  padding: 0 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -468,10 +450,12 @@ body {
   .header-back { font-size: 0; width: auto; }
   .header-back svg { width: 18px; height: 18px; }
   .breadcrumb { padding: 10px 16px; }
-  .hub-hero { padding: 24px 20px; }
+  .hub-hero { padding: 16px 0 12px; }
   .demo-content { padding: 24px 16px; }
-  .demo-nav { padding: 12px 16px; }
-  .demo-header { padding: 12px 16px; }
+  .demo-nav { padding: 12px 0; }
+  .demo-nav-inner { padding: 0 16px; }
+  .demo-header { padding: 12px 0; }
+  .demo-header-inner { padding: 0 16px; }
   .screenshots-row { flex-direction: column; }
   .persona-grid { grid-template-columns: repeat(2, 1fr); }
 }
