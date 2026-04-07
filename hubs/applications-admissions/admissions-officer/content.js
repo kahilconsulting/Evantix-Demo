@@ -3,7 +3,7 @@
    Demo Content — TBD (update steps below when ready)
    ============================================================ */
 
-const DEMO = {
+window.DEMO = {
   hub:         "Applications & Admissions Hub",
   hubSlug:     "applications-admissions",
   persona:     "Admissions Officer",

@@ -3,7 +3,7 @@
    Demo Content — TBD (update steps below when ready)
    ============================================================ */
 
-const DEMO = {
+window.DEMO = {
   hub:         "Events Hub",
   hubSlug:     "events",
   persona:     "Event Coordinator",

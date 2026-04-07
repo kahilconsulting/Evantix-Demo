@@ -11,7 +11,7 @@
    - To reorder steps: move the objects in the array.
    ============================================================ */
 
-const DEMO = {
+window.DEMO = {
   hub:         "Scholarship Hub",
   hubSlug:     "scholarship",
   persona:     "Student",

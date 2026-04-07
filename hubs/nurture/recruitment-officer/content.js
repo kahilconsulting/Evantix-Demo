@@ -3,7 +3,7 @@
    Demo Content — TBD (update steps below when ready)
    ============================================================ */
 
-const DEMO = {
+window.DEMO = {
   hub:         "Nurture Hub",
   hubSlug:     "nurture",
   persona:     "Recruitment Officer",
