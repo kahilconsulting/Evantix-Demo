@@ -1,5 +1,5 @@
 /* ============================================================
-   Evantix Demo Site — Shared JavaScript
+   Tarelium Demo Site — Shared JavaScript
    All pages load this file. Hub pages use renderHeader +
    renderBreadcrumb. Demo pages (L3) call initDemo().
    ============================================================ */
@@ -27,6 +27,14 @@
 
   const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F295E'/%3E%3Cpath d='M16 7L5 13l11 6 11-6z' fill='%232FA6A4'/%3E%3Cpath d='M9 16.5v5.5c0 1.66 3.13 3 7 3s7-1.34 7-3V16.5' stroke='%232FA6A4' stroke-width='1.8' stroke-linecap='round' fill='none'/%3E%3Cpath d='M27 13v5' stroke='white' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E";
 
+  // Derive the assets base URL from the shared.js script tag (always at {base}/assets/js/shared.js)
+  const _scriptSrc = (document.currentScript || document.querySelector('script[src*="shared.js"]') || {}).src || '';
+  const ASSETS_BASE = _scriptSrc ? _scriptSrc.replace(/\/assets\/js\/shared\.js.*$/, '/assets') : '/assets';
+  const ROOT_HREF = _scriptSrc ? _scriptSrc.replace(/\/assets\/js\/shared\.js.*$/, '/index.html') : '/index.html';
+  const LOGO_SRC = ASSETS_BASE + '/images/Talerium-logo.png';
+  const LOGO_BAYSHANN = ASSETS_BASE + '/images/Bayshann-logo.png';
+  const LOGO_KAHIL = ASSETS_BASE + '/images/KahilConsulting-logo.png';
+
   /* ── Header ────────────────────────────────────────────── */
 
   window.renderHeader = function ({ backHref, backLabel } = {}) {
@@ -39,22 +47,20 @@
     }
     favicon.href = FAVICON;
 
-    const backBtn = backHref
-      ? `<a class="header-back" href="${esc(backHref)}">
-           <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-           ${esc(backLabel || 'Back')}
-         </a>`
-      : `<div class="header-spacer"></div>`;
-
     const html = `
 <header class="site-header">
   <div class="header-inner">
-    ${backBtn}
     <div class="header-brand">
-      <h1>Evantix</h1>
+      <a href="${ROOT_HREF}"><img src="${LOGO_SRC}" alt="Talerium" /></a>
       <p>Unified Student Intelligence</p>
     </div>
-    <div class="header-spacer"></div>
+    <div class="header-created-by">
+      <span>Created and Maintained by</span>
+      <div class="header-created-by-logos">
+        <img src="${LOGO_BAYSHANN}" alt="Bayshann" />
+        <img src="${LOGO_KAHIL}" alt="Kahil Consulting" />
+      </div>
+    </div>
   </div>
 </header>`;
 
@@ -86,12 +92,38 @@
     }
   };
 
+  /* ── Persona Grid (L2) ─────────────────────────────────── */
+
+  window.renderPersonaGrid = function (hub) {
+    const grid = document.getElementById('personaGrid');
+    if (!grid) return;
+
+    hub.personas.forEach(function (p) {
+      const card = document.createElement(p.tbd ? 'div' : 'a');
+      card.className = 'persona-card' + (p.tbd ? ' persona-card--tbd' : '');
+      if (!p.tbd) card.href = p.slug + '/';
+      card.style.setProperty('--hub-color', hub.color);
+      card.style.setProperty('--pastel-bg', hexToRgba(hub.pastel, 0.45));
+      card.innerHTML = `
+        <div class="persona-band">${p.icon}</div>
+        <div class="persona-body">
+          <div class="persona-name">${esc(p.name)}</div>
+          <div class="persona-desc">${esc(p.desc)}</div>
+          <div class="persona-footer">
+            ${p.tbd ? '<span class="tbd-badge">Coming Soon</span>' : '<span></span>'}
+            <div class="persona-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  };
+
   /* ── Demo Page ──────────────────────────────────────────── */
 
   window.initDemo = function () {
     const demo = window.DEMO;
     if (!demo) {
-      console.error('[Evantix] No DEMO data found. Ensure content.js is loaded before shared.js.');
+      console.error('[Tarelium] No DEMO data found. Ensure content.js is loaded before shared.js.');
       return;
     }
 
@@ -99,7 +131,7 @@
     document.documentElement.style.setProperty('--hub-color', color);
 
     if (demo.persona && demo.hub) {
-      document.title = `${demo.persona} — ${demo.hub} — Evantix`;
+      document.title = `${demo.persona} — ${demo.hub} — Tarelium`;
     }
 
     const steps = demo.steps || [];
@@ -200,14 +232,21 @@
       }).join('');
 
       const shots = step.screenshots || [];
-      const shotsHTML = shots.length > 0
-        ? shots.map(s => buildScreenshot(s, demo.hubSlug, demo.personaSlug)).join('')
-        : buildPlaceholder('Screenshot coming soon');
+      let shotsHTML;
+      if (shots.length === 0) {
+        shotsHTML = `<div class="screenshots-pair">${buildPlaceholder('Screenshot coming soon')}</div>`;
+      } else {
+        const pairs = [];
+        for (var pi = 0; pi < shots.length; pi += 2) { pairs.push(shots.slice(pi, pi + 2)); }
+        shotsHTML = pairs.map(function (pair) {
+          return `<div class="screenshots-pair">${pair.map(function (s) { return buildScreenshot(s, demo.hubSlug, demo.personaSlug); }).join('')}</div>`;
+        }).join('');
+      }
 
       document.getElementById('stepContent').innerHTML = `
         <div class="step-number-label" style="color:${color}">Step ${current + 1} of ${total}</div>
         <h3 class="step-title">${esc(step.title)}</h3>
-        <p class="step-description">${esc(step.description || '')}</p>
+        ${step.description ? `<div class="step-description">${step.description}</div>` : ''}
         <div class="screenshots-row">${shotsHTML}</div>`;
 
       document.querySelectorAll('.screenshot-frame[data-src]').forEach(function (frame) {
@@ -266,16 +305,18 @@
       : (s.src || '');
     return `
       <div class="screenshot-item">
+        <div class="screenshot-description">${s.description || ''}</div>
         <div class="screenshot-frame" data-src="${esc(src)}" style="cursor:zoom-in">
           <img src="${esc(src)}" alt="${esc(s.caption || '')}" loading="lazy">
         </div>
-        ${s.caption ? `<div class="screenshot-caption">${esc(s.caption)}</div>` : ''}
+        <div class="screenshot-caption">${esc(s.caption || '')}</div>
       </div>`;
   }
 
   function buildPlaceholder(caption) {
     return `
       <div class="screenshot-item">
+        <p class="screenshot-description"></p>
         <div class="screenshot-frame" style="cursor:default">
           <div class="screenshot-placeholder">
             <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>

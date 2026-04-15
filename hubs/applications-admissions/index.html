@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Applications &amp; Admissions Hub — Evantix</title>
+  <title>Applications &amp; Admissions Hub — Tarelium</title>
   <link rel="stylesheet" href="../../assets/css/shared.css" />
 </head>
 <body>
@@ -37,15 +37,15 @@
           name: "Admissions Officer",
           slug: "admissions-officer",
           desc: "Process incoming applications, communicate decisions, and manage the end-to-end admissions workflow.",
-          tbd: true,
+          tbd: false,
           icon: `<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
         },
         {
-          name: "Department Coordinator",
+          name: "Business Administrator",
           slug: "department-coordinator",
-          desc: "Coordinate departmental input on applications, manage interview schedules, and provide academic recommendations.",
+          desc: "Configure assessment rules, manage application templates, and maintain the business data that drives the admissions workflow.",
           tbd: true,
-          icon: `<svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3"/><path d="M5 10v11M19 10v11M9 10v11M15 10v11"/></svg>`
+          icon: `<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`
         }
       ]
     };
@@ -63,25 +63,7 @@
       <h2>${esc(HUB.name)}</h2>
       <p>${esc(HUB.desc)}</p>`;
 
-    const grid = document.getElementById('personaGrid');
-    HUB.personas.forEach(p => {
-      const card = document.createElement('a');
-      card.className = 'persona-card';
-      card.href = `${p.slug}/`;
-      card.style.setProperty('--hub-color', HUB.color);
-      card.style.setProperty('--pastel-bg', hexToRgba(HUB.pastel, 0.45));
-      card.innerHTML = `
-        <div class="persona-band">${p.icon}</div>
-        <div class="persona-body">
-          <div class="persona-name">${esc(p.name)}</div>
-          <div class="persona-desc">${esc(p.desc)}</div>
-          <div class="persona-footer">
-            ${p.tbd ? '<span class="tbd-badge">TBD</span>' : '<span></span>'}
-            <div class="persona-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-          </div>
-        </div>`;
-      grid.appendChild(card);
-    });
+    renderPersonaGrid(HUB);
   </script>
 </body>
 </html>
